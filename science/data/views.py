@@ -4,7 +4,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import pandas as pd
 import numpy as np
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
+from django.db.models import Sum
 # Create your views here.
 
 def index(request):
@@ -29,20 +31,17 @@ def lineview(request):
 
 
 def dataTable(request):
-    caracteristicas_list = Caracteristicas_final.objects.all()
-    filter_date =  caracteristicas_list.filter(Date__range=["2013-01-08", "2013-01-11"])
+    sales_list = Ventas_stores.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator( filter_date, 10)
-
+    paginator = Paginator( sales_list, 10)
     try:
-        carcateristicas = paginator.page(page)
+        sale = paginator.page(page)
     except PageNotAnInteger:
-        carcateristicas = paginator.page(1)
+        sale = paginator.page(1)
     except EmptyPage:
-        carcateristicas = paginator.page(paginator.num_pages)
-    return render(request,"dataTable.html", { 'tiendas': carcateristicas })
-from django.db.models import Count
-from django.db.models import Sum
+        sale = paginator.page(paginator.num_pages)
+    return render(request,"dataTable.html", { 'sales': sale })
+
 
 def population_linechart(request):
     queryset = Ventas_stores.objects.filter(Store=1,Date__range=["2010-01-01","2010-12-31"],IsHoliday='Verdadero')
@@ -127,9 +126,6 @@ def listing_store(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'list.html', {'page_obj': page_obj})
-
-    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 
 def getSizeStore(request):
     stores = Tiendas.objects.all()
