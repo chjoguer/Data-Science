@@ -1,0 +1,162 @@
+{% extends "index.html" %} 
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/> 
+
+<div class="row">
+    <!-- basic table start -->
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Tables</h4>
+                <div id="accordion3" class="according accordion-s3">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#accordion31" aria-expanded="false">Store Table</a>
+                        </div>
+                        <div id="accordion31" class="collapse show" data-parent="#accordion3" >
+                            <div class="card-body">
+                                <div class="row ml-1">
+                                   <form action="{% url 'getCategoryStore' %}" method="POST" class="row">
+                                     {% csrf_token %}
+
+                                        <div class="form-group col-5">
+                                            <label for="example-date-input" class="col-form-label">Fecha inicio</label>
+                                            <input class="form-control" type="date" value="2018-03-05" id="example-date-input">
+                                        </div>
+                                        <div class="form-group col-5">
+                                            <label for="example-date-input" class="col-form-label">Fecha fin</label>
+                                            <input class="form-control" type="date" value="2018-03-05" id="example-date-input">
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Categoria</label>
+                                            <select class="form-control" name="category"  style="height: 45px;">
+                                                <option selected disabled>Seleccione la categoria</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+
+                                            </select>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary mb-3 col-2" style="height: 47px; margin-top: 5.5%;">Consultar</button>
+                                   </form>
+                                   
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label">Categoria</label>
+                                    <select class="form-control"  style="height: 45px;">
+                                        <option>Seleccione la categoria</option>
+                                        <option>Large select</option>
+                                        <option>Small select</option>
+                                    </select>
+                                </div>
+                                <h4 class="header-title">Tiendas</h4>
+                                <div class="single-table">
+                                    <div class="table-responsive">
+                                        <div class="col-12 mt-5" tyle="width:70%">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="header-title">Caracteristicas</h4>
+                                                    <div class="single-table">
+                                                        <div class="table-responsive">
+                                                            <table class="table text-center" style="width:99%" id="example">
+                                                                <thead class="text-uppercase">
+                                                                    <tr>
+                                                                        <th scope="col">Date</th>
+                                                                        <th scope="col">Fuel Price</th>
+                                                                        <th scope="col">CPI</th>
+                                                                        <th scope="col">Unemployment</th>
+                                                                        <th scope="col">Holiday</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for tienda in tiendas %}
+                                                                    <tr>
+                                                                        <th scope="row">{{ tienda.Date }}</th>
+                                                                        <td>{{ tienda.Fuel_Price }}</td>
+                                                                        <td>{{ tienda.CPI }}</td>
+                                                                        <td>{{ tienda.Unemployment }}</td>
+                                                                        <td>{{ tienda.IsHoliday }}</td>
+                                                                    </tr>
+                                                                  {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                         
+                                                        </div>
+                                                        
+                                                    </div>
+                                    
+                                                </div>
+                                                {% if tiendas.has_other_pages %}
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination  justify-content-end">
+                                                        {% if tiendas.has_previous %}
+                                                        <li class="page-item ">
+                                                            <a class="page-link"  href="?page={{ tiendas.previous_page_number }}" tabindex="-1">Previous</a>
+                                                        </li>
+                                                        {% else %}
+                                                        <li class=" page-item disabled">
+                                                            <a class="page-link"  href="?page={{ users.previous_page_number }}" tabindex="-1">Previous</a>
+                                                        </li>
+                                                        {% endif %}
+                                                        {% for i in tiendas.paginator.page_range %}
+                                                        {% if tiendas.number == i %}
+                                                            <li class="page-item active">
+                                                                <a class="page-link" ><span>{{ i }} <span class="sr-only">(current)</span></span></a>
+                                                            </li>
+                                                        {% else %}
+                                                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                        {% if tiendas.has_next %}
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page={{ tiendas.next_page_number }}">Next</a>
+                                                        </li>
+                                                        {% else %}
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="?page={{ users.next_page_number }}">Next</a>
+                                                        </li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </nav>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+<script>
+      $(document).ready(function() {
+    $('#example4545').DataTable();
+} );
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            "paging": false,
+            dom: 'Bfrtip',
+            buttons: [
+                'colvis',
+                'excel',
+                'print'
+            ]
+        });
+} );
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "index.html" %} 
+{% block content%}
+<div class="row mt-5 ">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="header-title mb-0">Overview Mean Weekly_Sale Store 1 By Dept in Holidays </h4>
+                  
+                </div>
+                <canvas id="population-chart" data-url="{% url 'population-line' %}" style="width:400; height:100;"></canvas>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $(function () {
+
+      var $populationChart = $("#population-chart");
+      $.ajax({
+        url: $populationChart.data("url"),
+        success: function (data) {
+
+          var ctx = $populationChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: "Departamento",
+                backgroundColor: '',
+                data: data.data
+              }]          
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Population Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+
+  </script>
+
+{% endblock %}
+
+                
+              
+

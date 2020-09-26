@@ -1,0 +1,134 @@
+{% extends "index.html" %} 
+{% block content%}
+<div class="row mt-5 ">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="header-title mb-0">Overview Size Stores</h4>
+                    <!-- <select class="custome-select border-0 pr-3">
+                        <option selected="">Last 24 Hours</option>
+                        <option value="0">01 July 2018</option>
+                    </select> -->
+                </div>
+                <canvas id="myChart" style="width:400; height:100;"></canvas>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+    
+
+    <script>
+        var json;
+        function getData(){
+            $.ajax({
+                type: "GET",
+                url: 'http://localhost:8000/getSizeStore',
+                dataType : 'json',
+                success: function(data)
+                {
+                    var data = JSON.stringify(data)
+                    json = JSON.parse(data);
+                    var array = new Array(2);
+                    array['labels']=json[0];
+                    array['data']=json[1];
+
+                    console.log(json[0]);
+                    // console.log(array['labels']);
+                    renderChart(array['labels'],array['data'])
+                },
+                error : function(xhr, status) {
+                    console.log('Disculpe, existió un problema');
+                    console.log(status);
+                    console.log(xhr);
+                },
+                // código a ejecutar sin importar si la petición falló o no
+                complete : function(xhr, status) {
+                    console.log('Petición realizada');
+                }
+            });   
+            // console.log(json);
+        }
+      
+        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        window.addEventListener('load', function() {
+            console.log("xxx");
+            console.log(getData());
+        });
+        function renderChart(labels,data_get){
+            console.log("rednder;")
+            var ict_unit = [];
+            var efficiency = [];
+            var coloR = [];
+
+            var dynamicColors = function() {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            };
+
+            for (var i in data_get) {
+                ict_unit.push("ICT Unit " + data_get[i].ict_unit);
+                efficiency.push(data_get[i].efficiency);
+                coloR.push(dynamicColors());
+            }
+            var randomColorGenerator = function () { 
+    return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
+};
+                    var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        
+                        labels: labels,
+                        datasets: [{
+                            label: 'Size of stores',
+                            data: data_get,
+                            backgroundColor: [],
+                            borderColor: randomColorGenerator,
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+        }
+        
+        
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var chart2 = new Chart(ctx2, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 10, 5, 2, 20, 30, 45]
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+
+    </script>
+
+                
+              
+
+{% endblock%}
