@@ -17,15 +17,7 @@
                                    <form action="{% url 'getCategoryStore' %}" method="POST" class="row">
                                      {% csrf_token %}
 
-                                        <div class="form-group col-3">
-                                            <label for="example-date-input" class="col-form-label">Fecha inicio</label>
-                                            <input class="form-control" type="date" value="2018-03-05" id="example-date-input">
-                                        </div>
-                                        <div class="form-group col-3">
-                                            <label for="example-date-input" class="col-form-label">Fecha fin</label>
-                                            <input class="form-control" type="date" value="2018-03-05" id="example-date-input">
-                                        </div>
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-8">
                                             <label class="col-form-label">Categoria</label>
                                             <select class="form-control" name="category"  style="height: 45px;">
                                                 <option selected disabled>Seleccione la categoria</option>
@@ -37,7 +29,7 @@
                                             </select>
                                         </div>
                                         
-                                        <button type="submit" class="btn btn-primary mb-3 col-2 inline-block" style="height: 47px; margin-top: 5.5%;">Consultar</button>
+                                        <button type="submit" class="btn btn-primary mb-3 col-4 " style="height: 47px; margin-top: 8.7%;">Consultar</button>
                                    </form>
                                    
                                 </div>
@@ -125,3 +117,4 @@
         </div>
     </div>  
 </div>
+{% endblock %}
