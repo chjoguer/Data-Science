@@ -108,15 +108,6 @@
                                                         {% endif %}
                                                         {% endif %}
                                                         {% endfor %}
-                                                        <!-- {% for i in tiendas.paginator.page_range %}
-                                                        {% if tiendas.number == i %}
-                                                            <li class="page-item active">
-                                                                <a class="page-link" ><span>{{ i }} <span class="sr-only">(current)</span></span></a>
-                                                            </li>
-                                                        {% else %}
-                                                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                                                        {% endif %}
-                                                        {% endfor %} -->
                                                         {% if tiendas.has_next %}
                                                         <li class="page-item">
                                                             <a class="page-link"
@@ -148,16 +139,4 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function (event) {
-        // - Code to execute when all DOM content is loaded. 
-        // - including fonts, images, etc.
-        console.log("xxx");
-        const x = $('.table');
-        console.log(x);
-        // $("tbody tr").remove(); 
-
-    });
-</script>
 {% endblock %}
